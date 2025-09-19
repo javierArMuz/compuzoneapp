@@ -1,4 +1,4 @@
-@extends('layouts.app'){{-- El layout --}}
+@extends('layouts.admin'){{-- El layout --}}
 
 @section('content')
 <div style="max-width:800px;margin:24px auto;">
