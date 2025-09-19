@@ -11,7 +11,7 @@ Route::get('/', fn() => view('welcome'))->name('home');
 // Grupo /admin
 Route::prefix('admin')->name('admin.')->group(function () {
     // Dashboard simple
-    Route::get('/', fn() => view('admin.panel'))->name('dashboard');
+    Route::get('/', fn() => view('layouts.admin'))->name('dashboard');
     // CRUD de categorías bajo /admin/categories
     Route::resource('categories', CategoryController::class)
         ->parameters(['categories' => 'category']); // por claridad en el {category}
