@@ -1,96 +1,97 @@
-@extends('layouts.admin') {{-- El layout --}}
+@extends('layouts.admin')
+
 @section('content')
+<div class="container-fluid py-4">
+  <div class="card shadow-sm p-4">
+    <h2 class="mb-3">{{ !empty($editing) ? 'Editar Categoría' : 'Registrar Categoría' }}</h2>
 
-<div style="max-width:720px;margin:24px auto;font-family:system-ui, sans-serif">
-  <h2>{{ !empty($editing) ? 'Editar Categoría' : 'Registrar Categoría' }}</h2>
-
-  {{-- Mensajes --}}
-  @if (session('ok'))
-  <div style="padding:8px 12px;background:#e8f5e9;border:1px solid #a5d6a7;margin-bottom:12px">
-    {{ session('ok') }}
-  </div>
-  @endif
-
-  {{-- Errores --}}
-  @if ($errors->any())
-  <div style="padding:8px 12px;background:#ffebee;border:1px solid #ef9a9a;margin-bottom:12px">
-    <ul style="margin:0;padding-left:18px">
-      @foreach ($errors->all() as $e)
-      <li>{{ $e }}</li>
-      @endforeach
-    </ul>
-  </div>
-  @endif
-
-  {{-- Formulario crear/editar --}}
-  <form method="POST"
-    action="{{ empty($editing) ? route('admin.categories.store') : route('admin.categories.update', $category) }}">
-    @csrf
-    @if(!empty($editing))
-    @method('PUT')
+    {{-- Mensajes de éxito --}}
+    @if (session('ok'))
+    <div class="alert alert-success mt-3" role="alert">
+      {{ session('ok') }}
+    </div>
     @endif
 
-    <input type="text"
-      name="name"
-      placeholder="Nombre de la categoría"
-      minlength="1" maxlength="30"
-      pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,30}"
-      required
-      value="{{ old('name', $category->name ?? '') }}"
-      style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px">
-    <br><br>
-
-    <button type="submit"
-      style="padding:8px 14px;border:0;background:#111;color:#fff;border-radius:6px;cursor:pointer">
-      {{ !empty($editing) ? 'Actualizar' : 'Guardar' }}
-    </button>
-
-    @if(!empty($editing))
-    <a href="{{ route('admin.categories.index') }}"
-      style="margin-left:8px">Cancelar</a>
+    {{-- Mensajes de error --}}
+    @if ($errors->any())
+    <div class="alert alert-danger mt-3" role="alert">
+      <ul>
+        @foreach ($errors->all() as $e)
+        <li>{{ $e }}</li>
+        @endforeach
+      </ul>
+    </div>
     @endif
-  </form>
 
-  <hr style="margin:24px 0">
+    {{-- Formulario crear/editar --}}
+    <form method="POST"
+      action="{{ empty($editing) ? route('admin.categories.store') : route('admin.categories.update', $category) }}">
+      @csrf
+      @if(!empty($editing))
+      @method('PUT')
+      @endif
 
-  <h3>Listado de Categorías</h3>
+      <div class="mb-3">
+        <input type="text"
+          name="name"
+          class="form-control"
+          placeholder="Nombre de la categoría"
+          minlength="1" maxlength="30"
+          pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,30}"
+          required
+          value="{{ old('name', $category->name ?? '') }}">
+      </div>
 
-  {{-- Tabla de Categorías --}}
-  <table border="1" cellpadding="8" cellspacing="0" width="100%">
-    <thead>
-      <tr>
-        <th align="left">Nombre</th>
-        <th width="160">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{-- Itera sobre las Categorías --}}
-      @forelse ($categories as $c)
-      <tr>
-        <td>{{ $c->name }}</td>
-        <td>
-          <a href="{{ route('admin.categories.edit', $c) }}">Editar</a>
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">
+          {{ !empty($editing) ? 'Actualizar' : 'Guardar' }}
+        </button>
+        @if(!empty($editing))
+        <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary">Cancelar</a>
+        @endif
+      </div>
+    </form>
 
-          <form method="POST"
-            action="{{ route('admin.categories.destroy', $c) }}"
-            style="display:inline"
-            onsubmit="return confirm('¿Seguro de eliminar esta categoría?');">
-            @csrf @method('DELETE')
-            <button type="submit">Eliminar</button>
-          </form>
-        </td>
-      </tr>
-      @empty
-      <tr>
-        <td colspan="2">Sin categorías</td>
-      </tr>
-      @endforelse
-    </tbody>
-  </table>
+    <hr class="my-4">
 
-  <div style="margin-top:12px">
-    {{ $categories->links() }}
+    <h3 class="mb-3">Listado de Categorías</h3>
+
+    {{-- Tabla de Categorías --}}
+    <div class="table-responsive">
+      <table class="table table-striped table-hover align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col" style="width: 20%;">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{-- Itera sobre las Categorías --}}
+          @forelse ($categories as $c)
+          <tr>
+            <td>{{ $c->name }}</td>
+            <td class="d-flex gap-2">
+              <a href="{{ route('admin.categories.edit', $c) }}" class="btn btn-sm btn-warning">Editar</a>
+              <form method="POST"
+                action="{{ route('admin.categories.destroy', $c) }}"
+                onsubmit="return confirm('¿Seguro de eliminar esta categoría?');">
+                @csrf @method('DELETE')
+                <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+              </form>
+            </td>
+          </tr>
+          @empty
+          <tr>
+            <td colspan="2" class="text-center">No hay categorías registradas</td>
+          </tr>
+          @endforelse
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-3">
+      {{ $categories->links() }}
+    </div>
   </div>
 </div>
-
 @endsection

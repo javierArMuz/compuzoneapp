@@ -1,78 +1,92 @@
-@extends('layouts.admin'){{-- El layout --}}
+@extends('layouts.admin')
 
 @section('content')
-<div style="max-width:720px;margin:24px auto;font-family:sans-serif">
-  <h2>{{ !empty($editing) ? 'Editar Marca' : 'Registrar Marca' }}</h2>
+<div class="container-fluid py-4">
+  <div class="card shadow-sm p-4">
+    <h2 class="mb-3">{{ !empty($editing) ? 'Editar Marca' : 'Registrar Marca' }}</h2>
 
-  {{-- Mensajes --}}
-  @if (session('ok'))
-  <div style="background:#e8f5e9;padding:10px;border:1px solid #a5d6a7">{{ session('ok') }}</div>
-  @endif
-
-  {{-- Errores --}}
-  @if ($errors->any())
-  <div style="background:#ffebee;padding:10px;border:1px solid #ef9a9a">
-    <ul>
-      @foreach ($errors->all() as $e)
-      <li>{{ $e }}</li>
-      @endforeach
-    </ul>
-  </div>
-  @endif
-
-  {{-- Formulario crear/editar --}}
-  <form method="POST"
-    action="{{ empty($editing) ? route('admin.brands.store') : route('admin.brands.update', $brand) }}">
-    @csrf
-    @if(!empty($editing)) @method('PUT') @endif
-
-    <input type="text" name="name"
-      placeholder="Nombre de la marca"
-      minlength="1" maxlength="50"
-      required
-      pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,50}"
-      value="{{ old('name', $brand->name ?? '') }}">
-    <br><br>
-
-    <button type="submit">
-      {{ !empty($editing) ? 'Actualizar' : 'Guardar' }}
-    </button>
-
-    @if(!empty($editing))
-    <a href="{{ route('admin.brands.index') }}">Cancelar</a>
+    {{-- Mensajes de éxito --}}
+    @if (session('ok'))
+    <div class="alert alert-success mt-3" role="alert">
+      {{ session('ok') }}
+    </div>
     @endif
-  </form>
 
-  <hr>
-  <h3>Listado de Marcas</h3>
+    {{-- Mensajes de error --}}
+    @if ($errors->any())
+    <div class="alert alert-danger mt-3" role="alert">
+      <ul>
+        @foreach ($errors->all() as $e)
+        <li>{{ $e }}</li>
+        @endforeach
+      </ul>
+    </div>
+    @endif
 
-  {{-- Tabla de Marcas --}}
-  <table border="1" width="100%" cellpadding="6">
-    <tr>
-      <th>Nombre</th>
-      <th>Acciones</th>
-    </tr>
-    {{-- Itera sobre las Marcas --}}
-    @forelse($brands as $b)
-    <tr>
-      <td>{{ $b->name }}</td>
-      <td>
-        <a href="{{ route('admin.brands.edit', $b) }}">Editar</a>
-        <form method="POST" action="{{ route('admin.brands.destroy', $b) }}"
-          style="display:inline"
-          onsubmit="return confirm('¿Eliminar marca?');">
-          @csrf @method('DELETE')
-          <button type="submit">Eliminar</button>
-        </form>
-      </td>
-    </tr>
-    @empty
-    <tr>
-      <td colspan="2">No hay marcas</td>
-    </tr>
-    @endforelse
-  </table>
+    {{-- Formulario crear/editar --}}
+    <form method="POST"
+      action="{{ empty($editing) ? route('admin.brands.store') : route('admin.brands.update', $brand) }}">
+      @csrf
+      @if(!empty($editing)) @method('PUT') @endif
 
-  <div style="margin-top:10px">{{ $brands->links() }}</div>
+      <div class="mb-3">
+        <input type="text" name="name"
+          class="form-control"
+          placeholder="Nombre de la marca"
+          minlength="1" maxlength="50"
+          required
+          pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,50}"
+          value="{{ old('name', $brand->name ?? '') }}">
+      </div>
+
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">
+          {{ !empty($editing) ? 'Actualizar' : 'Guardar' }}
+        </button>
+        @if(!empty($editing))
+        <a href="{{ route('admin.brands.index') }}" class="btn btn-secondary">Cancelar</a>
+        @endif
+      </div>
+    </form>
+
+    <hr class="my-4">
+    <h3 class="mb-3">Listado de Marcas</h3>
+
+    {{-- Tabla de Marcas --}}
+    <div class="table-responsive">
+      <table class="table table-striped table-hover align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col" style="width: 20%;">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{-- Itera sobre las Marcas --}}
+          @forelse($brands as $b)
+          <tr>
+            <td>{{ $b->name }}</td>
+            <td class="d-flex gap-2">
+              <a href="{{ route('admin.brands.edit', $b) }}" class="btn btn-sm btn-warning">Editar</a>
+              <form method="POST" action="{{ route('admin.brands.destroy', $b) }}"
+                onsubmit="return confirm('¿Eliminar marca?');">
+                @csrf @method('DELETE')
+                <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+              </form>
+            </td>
+          </tr>
+          @empty
+          <tr>
+            <td colspan="2" class="text-center">No hay marcas registradas</td>
+          </tr>
+          @endforelse
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-3">
+      {{ $brands->links() }}
+    </div>
+  </div>
 </div>
 @endsection
