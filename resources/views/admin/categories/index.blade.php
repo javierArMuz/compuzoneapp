@@ -1,4 +1,6 @@
-@extends('layouts.admin')
+@extends('layouts.app')
+
+@section('title', 'CompuzoneApp | Admin/Categorías')
 
 @section('content')
 <div class="container-fluid py-4">
@@ -62,7 +64,7 @@
         <thead>
           <tr>
             <th scope="col">Nombre</th>
-            <th scope="col" style="width: 20%;">Acciones</th>
+            <th scope="col" style="width: 20%;" class="ps-3">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -71,12 +73,12 @@
           <tr>
             <td>{{ $c->name }}</td>
             <td class="d-flex gap-2">
-              <a href="{{ route('admin.categories.edit', $c) }}" class="btn btn-sm btn-warning">Editar</a>
+              <a href="{{ route('admin.categories.edit', $c) }}" class="btn"><i class="far text-warning">&#xf044;</i></a>
               <form method="POST"
                 action="{{ route('admin.categories.destroy', $c) }}"
                 onsubmit="return confirm('¿Seguro de eliminar esta categoría?');">
                 @csrf @method('DELETE')
-                <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                <button type="submit" class="btn"><i class='far text-danger'>&#xf2ed;</i></button>
               </form>
             </td>
           </tr>

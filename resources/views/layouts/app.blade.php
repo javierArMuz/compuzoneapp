@@ -4,14 +4,20 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>CompuzoneApp | Admin</title>
+	<title>@yield('title')</title>
 	<!-- Vite para los estilos y scripts del proyecto -->
 	@vite(['resources/css/app.css', 'resources/js/app.js'])
+	<!-- Font Awesome (Iconos) -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" xintegrity="sha512-1ycn6IcaQQ40N8S3aWlD6ZIz8w4P5+u2I8v6Iu2Z9j+d+2g0/s+G/tF/Xz8uN/E/D5L/1i/jM/Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<style>
 		body {
 			background-color: #f8f9fa;
 			font-family: 'Inter', sans-serif;
 			overflow-x: hidden;
+		}
+
+		a {
+			text-decoration: none;
 		}
 
 		#wrapper {
@@ -24,16 +30,16 @@
 			color: white;
 			transition: all 0.3s ease-in-out;
 			box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-		}
 
-		#sidebar-wrapper.collapsed {
-			min-width: 60px;
-			max-width: 60px;
-			overflow: hidden;
-		}
+			&.collapsed {
+				min-width: 60px;
+				max-width: 60px;
+				overflow: hidden;
 
-		#sidebar-wrapper.collapsed .list-group-item span {
-			display: none;
+				.list-group-item span {
+					display: none;
+				}
+			}
 		}
 
 		.sidebar-heading {
@@ -50,35 +56,35 @@
 		}
 
 		.list-group-item {
-			background-color: transparent !important;
+			background-color: transparent;
 			border: none;
-			color: rgba(255, 255, 255, 0.8) !important;
+			color: rgba(255, 255, 255, 0.8);
 			padding: 1rem 1.5rem;
 			transition: all 0.2s;
 			display: flex;
 			align-items: center;
 			gap: 1rem;
-		}
 
-		.list-group-item:hover {
-			color: #fff !important;
-			background-color: rgba(255, 255, 255, 0.1) !important;
+			&:hover {
+				color: #fff !important;
+				background-color: rgba(255, 255, 255, 0.1) !important;
+			}
 		}
 
 		.hamburger-icon {
 			cursor: pointer;
 			padding: 0.5rem;
 			border-radius: 0.25rem;
-		}
 
-		.hamburger-icon:hover {
-			background-color: rgba(255, 255, 255, 0.1);
+			&:hover {
+				background-color: rgba(255, 255, 255, 0.1);
+			}
 		}
 
 		@media (min-width: 768px) {
 			#sidebar-wrapper {
-				min-width: 250px;
-				max-width: 250px;
+				min-width: 155px;
+				max-width: 155px;
 			}
 		}
 
@@ -124,9 +130,16 @@
 				<h5 class="my-0">Admin</h5>
 			</div>
 			<div class="list-group list-group-flush">
-				<a href="{{ route('admin.products.index') }}" class="list-group-item list-group-item-action" title="Productos">🛒 <span>Productos</span></a>
-				<a href="{{ route('admin.brands.index') }}" class="list-group-item list-group-item-action" title="Marcas">🏷️ <span>Marcas</span></a>
-				<a href="{{ route('admin.categories.index') }}" class="list-group-item list-group-item-action" title="Categorías">📂 <span>Categorías</span></a>
+				<a href="{{ route('admin.dashboard') }}" class="list-group-item list-group-item-action" title="Home"><i class="fas fa-home"></i></a>
+				<a href="{{ route('admin.products.index') }}" class="list-group-item list-group-item-action" title="Productos"><i class="fas fa-box"></i><span>Productos</span></a>
+				<a href="{{ route('admin.brands.index') }}" class="list-group-item list-group-item-action" title="Marcas"><i class="fas fa-tags"></i><span>Marcas</span></a>
+				<a href="{{ route('admin.categories.index') }}" class="list-group-item list-group-item-action" title="Categorías"><i class="fas fa-folder"></i><span>Categorías</span></a>
+				<a href="#"
+					title="Cerrar"
+					class="list-group-item"
+					onclick="event.preventDefault(); if (confirm('¿Estás seguro de que quieres cerrar la sesión?')) { document.getElementById('logout-form').submit(); }">
+					<i class="fas fa-sign-out-alt"></i><span>Cerrar</span>
+				</a>
 			</div>
 		</div>
 
@@ -137,6 +150,11 @@
 				@yield('content')
 			</div>
 		</div>
+
+		<!-- Formulario oculto de cerrar de sesión-->
+		<form id="logout-form" action="{{ route('admin.logout') }}" method="POST" class="d-none">
+			@csrf
+		</form>
 	</div>
 
 	<script>
@@ -151,12 +169,12 @@
 			const wrapper = document.getElementById('wrapper');
 
 			function setupDesktopListeners() {
-				// Remove previous listeners to prevent duplicates
+				// Eliminar EventListener anteriores para evitar duplicados
 				sidebar.removeEventListener('mouseenter', expandSidebar);
 				sidebar.removeEventListener('mouseleave', collapseSidebar);
 				hamburgerDesktop.removeEventListener('click', toggleToggledClass);
 
-				// Add listeners for desktop mode
+				// Agregar EventListener para el modo de escritorio
 				sidebar.addEventListener('mouseenter', expandSidebar);
 				sidebar.addEventListener('mouseleave', collapseSidebar);
 				hamburgerDesktop.addEventListener('click', toggleToggledClass);
@@ -176,18 +194,18 @@
 				wrapper.classList.toggle('toggled');
 			}
 
-			// Initial check on page load
+			// Comprobación inicial de la carga de la página
 			if (window.innerWidth >= 768) {
 				setupDesktopListeners();
 				sidebar.classList.add('collapsed');
 			}
 
-			// Update listeners on window resize
+			// Actualizar los EventListener al cambiar el tamaño de la ventana
 			window.addEventListener('resize', function() {
 				if (window.innerWidth >= 768) {
 					setupDesktopListeners();
 				} else {
-					// Clean up desktop listeners when resizing to mobile
+					// Limpie los EventListener de escritorio al cambiar el tamaño a dispositivos móviles
 					sidebar.removeEventListener('mouseenter', expandSidebar);
 					sidebar.removeEventListener('mouseleave', collapseSidebar);
 					hamburgerDesktop.removeEventListener('click', toggleToggledClass);

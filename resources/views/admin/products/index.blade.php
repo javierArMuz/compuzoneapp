@@ -1,4 +1,6 @@
-@extends('layouts.admin'){{-- El layout --}}
+@extends('layouts.app')
+
+@section('title', 'CompuzoneApp | Admin/Productos')
 
 @section('content')
 <div class="container-fluid mt-4">
@@ -29,7 +31,7 @@
 							<th>Precio</th>
 							<th>Stock</th>
 							<th>Activo</th>
-							<th>Acciones</th>
+							<th class="ps-3">Acciones</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -51,10 +53,11 @@
 								@endif
 							</td>
 							<td>
-								<a href="{{ route('admin.products.edit', $p) }}" class="btn btn-warning btn-sm me-2">Editar</a>
+								<a href="{{ route('admin.products.edit', $p) }}" class="btn"><i class="far text-warning">&#xf044;</i></a>
 								<form method="POST" action="{{ route('admin.products.destroy', $p) }}" style="display:inline" onsubmit="return confirm('¿Eliminar este producto?');">
 									@csrf @method('DELETE')
-									<button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+									<!-- <button type="submit" class="btn btn-danger btn-sm"><i class='far'>&#xf2ed;</i></button> -->
+									<button type="submit" class="btn"><i class='far text-danger'>&#xf2ed;</i></button>
 								</form>
 							</td>
 						</tr>

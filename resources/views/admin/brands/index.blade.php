@@ -1,4 +1,6 @@
-@extends('layouts.admin')
+@extends('layouts.app')
+
+@section('title', 'CompuzoneApp | Admin/Marcas')
 
 @section('content')
 <div class="container-fluid py-4">
@@ -58,7 +60,7 @@
         <thead>
           <tr>
             <th scope="col">Nombre</th>
-            <th scope="col" style="width: 20%;">Acciones</th>
+            <th scope="col" style="width: 20%;" class="ps-3">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -67,11 +69,11 @@
           <tr>
             <td>{{ $b->name }}</td>
             <td class="d-flex gap-2">
-              <a href="{{ route('admin.brands.edit', $b) }}" class="btn btn-sm btn-warning">Editar</a>
+              <a href="{{ route('admin.brands.edit', $b) }}" class="btn"><i class="far text-warning">&#xf044;</i></a>
               <form method="POST" action="{{ route('admin.brands.destroy', $b) }}"
                 onsubmit="return confirm('¿Eliminar marca?');">
                 @csrf @method('DELETE')
-                <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                <button type="submit" class="btn"><i class='far text-danger'>&#xf2ed;</i></button>
               </form>
             </td>
           </tr>
