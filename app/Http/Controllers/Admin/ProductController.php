@@ -50,7 +50,7 @@ class ProductController extends Controller
     // Crea un nuevo producto con los datos validados
     Product::create($validated);
     // Redirige con mensaje de éxito
-    return redirect()->route('admin.products.index')->with('ok', 'Producto creado');
+    return redirect()->route('admin.products.index')->with('ok', 'Producto guardado con éxito');
   }
 
   // Muestra el formulario de edición para un producto específico.
