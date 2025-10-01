@@ -11,7 +11,7 @@ class Admin extends Authenticatable
 	use HasFactory, Notifiable;
 
 	/**
-	 * The attributes that are mass assignable.
+	 * Campos que se pueden asignar masivamente
 	 *
 	 * @var array<int, string>
 	 */
@@ -22,7 +22,7 @@ class Admin extends Authenticatable
 	];
 
 	/**
-	 * The attributes that should be hidden for serialization.
+	 * Los atributos que deben ocultarse para la serialización.
 	 *
 	 * @var array<int, string>
 	 */
@@ -32,7 +32,7 @@ class Admin extends Authenticatable
 	];
 
 	/**
-	 * The attributes that should be cast.
+	 * Los atributos que deben ser convertidos.
 	 *
 	 * @var array<string, string>
 	 */

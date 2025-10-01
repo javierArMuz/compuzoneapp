@@ -11,6 +11,7 @@
 </head>
 
 <body>
+  <!-- Contenido de la página -->
   <section class="container">
     <div class="row justify-content-center align-items-center" style="height: 100vh;">
       @yield('content')
