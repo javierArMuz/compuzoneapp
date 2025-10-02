@@ -1,4 +1,4 @@
-@extends('layouts.login')
+@extends('layouts.auth')
 
 @section('title', 'Admin | Iniciar Sesión')
 
@@ -26,6 +26,7 @@
     </div>
     @endif
 
+    <!-- Formulario de Login -->
     <form method="POST" action="{{ route('admin.login.store') }}">
       @csrf
 

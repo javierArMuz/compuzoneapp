@@ -6,8 +6,48 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\User\Auth\UserController;
 
-// Rutas de Login y autenticación para el panel de administración
+/*
+|--------------------------------------------------------------------------
+| Rutas del Usuario Final (Tienda/E-commerce)
+|--------------------------------------------------------------------------
+*/
+// Ruta de inicio (accesible para todos)
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
+
+// AGREGAR ESTA RUTA TEMPORALMENTE para forzar el cierre de sesión de forma fácil (GET)
+Route::get('auth/temp-logout', [UserController::class, 'logout'])->name('auth.temp_logout');
+
+// Rutas de Autenticación de Usuario (Login/Registro)
+// Usamos el middleware 'guest' para que solo los usuarios no autenticados puedan acceder a estas páginas.
+Route::prefix('auth')->name('auth.')->middleware('guest')->group(function () {
+    // Registro
+    Route::get('register', [UserController::class, 'create'])->name('register');
+    Route::post('register', [UserController::class, 'store'])->name('store');
+
+    // Login
+    Route::get('login', [UserController::class, 'login'])->name('login');
+    Route::post('login', [UserController::class, 'authenticate'])->name('authenticate');
+});
+
+// Rutas para usuarios autenticados (Por ejemplo, un dashboard de cliente)
+Route::middleware('auth')->group(function () {
+    // Aquí se pueden añadir rutas como:
+    // Route::get('profile', [UserController::class, 'profile'])->name('profile');
+
+    // Logout (Esta ruta debe estar protegida para que solo un usuario logueado pueda cerrarla)
+    Route::post('auth/logout', [UserController::class, 'logout'])->name('auth.logout');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Rutas del Administrador (Admin Panel)
+|--------------------------------------------------------------------------
+*/
+
 Route::prefix('admin')->name('admin.')->group(function () {
     // Rutas para el formulario de login (accesibles para no autenticados)
     Route::get('/login', [LoginController::class, 'create'])->name('login');
