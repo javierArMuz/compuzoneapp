@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductApiController;
+use App\Http\Controllers\Api\BrandApiController;
+use App\Http\Controllers\Api\CategoryApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,17 +17,20 @@ use App\Http\Controllers\Api\ProductApiController;
 |
 */
 
-// Agrupamos todas las rutas de la API de Productos
+// Agrupamos todas las rutas de la API de CompuzoneApp
 Route::middleware('api')->group(function () {
   // CRUD RESTful para Productos
-  // Las rutas generadas son:
-  // GET    /api/products           -> index
-  // POST   /api/products           -> store
-  // GET    /api/products/{product} -> show
-  // PUT    /api/products/{product} -> update
-  // DELETE /api/products/{product} -> destroy
+  // Endpoints: /api/products
   Route::resource('products', ProductApiController::class)->except(['create', 'edit']);
-});
+
+  // CRUD RESTful para Marcas (Brands)
+  // Endpoints: /api/brands
+  Route::resource('brands', BrandApiController::class)->except(['create', 'edit']);
+
+  // CRUD RESTful para Categorías (Categories)
+  // Endpoints: /api/categories
+  Route::resource('categories', CategoryApiController::class)->except(['create', 'edit']);
+}); // CIERRE DEL GRUPO DE RUTAS
 
 // Ruta de ejemplo para el usuario autenticado por token (si se usara Sanctum)
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
