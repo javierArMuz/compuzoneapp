@@ -36,7 +36,7 @@ Route::prefix('auth')->name('auth.')->middleware('guest')->group(function () {
 // Rutas para usuarios autenticados (Por ejemplo, un dashboard de cliente)
 Route::middleware('auth')->group(function () {
     // Aquí se pueden añadir rutas como:
-    // Route::get('profile', [UserController::class, 'profile'])->name('profile');
+    Route::get('dashboard', [UserController::class, 'index'])->name('dashboard');
 
     // Logout (Esta ruta debe estar protegida para que solo un usuario logueado pueda cerrarla)
     Route::post('auth/logout', [UserController::class, 'logout'])->name('auth.logout');

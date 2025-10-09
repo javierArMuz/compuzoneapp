@@ -11,6 +11,19 @@ use Illuminate\Validation\Rules;
 
 class UserController extends Controller
 {
+  public function index()
+  {
+    // Generar la vista del dashboard pasando los datos
+    $response = response()->view('user.dashboard');
+
+    // Añade las cabeceras HTTP anti-caché directamente a la respuesta
+    $response->header('Cache-Control', 'nocache, no-store, max-age=0, must-revalidate')
+      ->header('Pragma', 'no-cache')
+      ->header('Expires', 'Sat, 26 Jul 1997 05:00:00 GMT');
+
+    return $response;
+  }
+
   // Muestra el formulario de registro de usuario
   public function create()
   {
@@ -45,7 +58,7 @@ class UserController extends Controller
     Auth::login($user);
 
     // Redirigir a una ruta segura, por ejemplo, el dashboard del usuario o la página principal
-    return redirect()->route('home')->with('success', '¡Registro exitoso! Bienvenido a CompuzoneApp.');
+    return redirect()->route('dashboard')->with('success', '¡Registro exitoso! Bienvenido a CompuzoneApp.');
   }
 
   // Muestra el formulario de inicio de sesión
@@ -68,7 +81,7 @@ class UserController extends Controller
       $request->session()->regenerate();
 
       // Redirigir a la página de inicio
-      return redirect()->intended(route('home'))->with('success', '¡Has iniciado sesión correctamente!');
+      return redirect()->intended(route('dashboard'))->with('success', '¡Has iniciado sesión correctamente!');
     }
 
     // 3. Si falla, devolver error
