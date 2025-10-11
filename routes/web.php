@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\User\Auth\UserController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +19,6 @@ use App\Http\Controllers\User\Auth\UserController;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
-
-// AGREGAR ESTA RUTA TEMPORALMENTE para forzar el cierre de sesión de forma fácil (GET)
-Route::get('auth/temp-logout', [UserController::class, 'logout'])->name('auth.temp_logout');
 
 // Rutas de Autenticación de Usuario (Login/Registro)
 // Usamos el middleware 'guest' para que solo los usuarios no autenticados puedan acceder a estas páginas.
@@ -35,10 +34,37 @@ Route::prefix('auth')->name('auth.')->middleware('guest')->group(function () {
 
 // Rutas para usuarios autenticados (Por ejemplo, un dashboard de cliente)
 Route::middleware('auth')->group(function () {
-    // Aquí se pueden añadir rutas como:
-    Route::get('dashboard', [UserController::class, 'index'])->name('dashboard');
 
-    // Logout (Esta ruta debe estar protegida para que solo un usuario logueado pueda cerrarla)
+    // =======================================================
+    // RUTAS DE LA TIENDA
+    // =======================================================
+
+    // Ruta principal para ver la galería de productos.
+    Route::get('dashboard', [ShopController::class, 'index'])->name('dashboard');
+
+    // Formulario de búsqueda y los enlaces.
+    Route::get('tienda', [ShopController::class, 'index'])->name('shop.index');
+
+    // Ruta para ver los detalles de un producto.
+    Route::get('productos/{product}', [ShopController::class, 'show'])->name('products.show');
+
+    // Rutas del Carrito de Compras
+
+    // El carrito debe ser siempre un método GET
+    Route::get('/carrito', [CartController::class, 'index'])->name('cart.index');
+
+    // Agregar un producto (POST, porque modifica la sesión)
+    Route::post('/carrito/agregar/{product}', [CartController::class, 'add'])->name('cart.add');
+
+    // Actualizar la cantidad (PUT, porque modifica la sesión)
+    Route::put('/carrito/actualizar/{product}', [CartController::class, 'update'])->name('cart.update');
+
+    // Eliminar un producto (DELETE, porque elimina de la sesión)
+    Route::delete('/carrito/remover/{product}', [CartController::class, 'remove'])->name('cart.remove');
+
+    // =======================================================
+
+    // Logout
     Route::post('auth/logout', [UserController::class, 'logout'])->name('auth.logout');
 });
 

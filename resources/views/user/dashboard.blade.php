@@ -14,134 +14,62 @@
     </h1>
 
     <!-- Fila de la Cuadrícula para Productos -->
-    <!-- La cuadrícula se adapta: 1 columna en móvil, 2 en tablets/medianos, 4 en grandes -->
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
 
-      <!-- INICIO: Tarjeta de Producto de Ejemplo -->
+      <!-- INICIO DEL LOOP DE BLADE: Recorre la colección $products inyectada por el Controlador -->
+      @foreach ($products as $product)
       <div class="col">
         <div class="card product-card shadow-sm h-100">
           <!-- Imagen del Producto -->
-          <img src="https://placehold.co/400x200/535C91/FFFFFF?text=Tarjeta+Gr%C3%A1fica"
+          <!-- Usa la URL o el PATH de la imagen del producto -->
+          <img src="{{ $product->image_url ?? 'https://placehold.co/400x200/cccccc/333333?text=Sin+Imagen' }}"
             class="card-img-top-custom rounded-top"
-            alt="Producto: Tarjeta Gráfica RTX">
+            alt="Producto: {{ $product->name }}">
 
           <div class="card-body d-flex flex-column">
             <!-- Nombre del Artículo -->
-            <h5 class="card-title fw-bold text-truncate" title="Tarjeta Gráfica RTX SuperPro Z300">
-              Tarjeta Gráfica RTX SuperPro Z300
+            <!-- Limita el texto con la clase text-truncate de Bootstrap -->
+            <h5 class="card-title fw-bold text-truncate" title="{{ $product->name }}">
+              {{ $product->name }}
             </h5>
-            <!-- Precio del Artículo -->
+            <!-- Precio del Artículo (Formateado como moneda, si usas un helper de Laravel) -->
             <h4 class="card-text text-primary mb-3">
-              <span class="fw-bolder">$499.99</span>
+              <span class="fw-bolder">${{ number_format($product->price, 2) }}</span>
             </h4>
+            <!-- <a href="{{ route('products.show', $product->id) }}" class="block hover:shadow-lg transition duration-300 rounded-lg overflow-hidden">
+              <div class="p-4">
+                <h3 class="text-xl font-semibold mb-1">{{ $product->name }}</h3>
+                <p class="text-green-600 font-bold">${{ number_format($product->price, 2) }}</p>
+              </div>
+            </a> -->
 
             <!-- Botones de Acción -->
             <div class="d-grid gap-2 mt-auto">
-              <!-- Botón Ver Detalles (Azul) -->
-              <a href="#" class="btn btn-outline-primary btn-sm">
+              <!-- Botón Ver Detalles (Usando el ID del producto) -->
+              <a href="{{ route('products.show', $product->id) }}" class="btn btn-outline-primary btn-sm">
                 <i class="fa-solid fa-eye me-1"></i> Ver Detalles
               </a>
-              <!-- Botón Agregar al Carrito (Verde) -->
-              <a href="#" class="btn btn-success btn-sm">
-                <i class="fa-solid fa-cart-plus me-1"></i> Agregar al Carrito
-              </a>
+
+              <!-- Botón Agregar al Carrito (Debe ser un formulario POST en la vida real) -->
+              <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-success btn-sm w-100">
+                  <i class="fa-solid fa-cart-plus me-1"></i> Agregar al Carrito
+                </button>
+              </form>
             </div>
           </div>
         </div>
       </div>
-      <!-- FIN: Tarjeta de Producto de Ejemplo -->
+      @endforeach
+      <!-- FIN DEL LOOP DE BLADE -->
 
-      <!-- COPIA: Tarjeta de Producto de Ejemplo 2 -->
-      <div class="col">
-        <div class="card product-card shadow-sm h-100">
-          <!-- Imagen del Producto -->
-          <img src="https://placehold.co/400x200/0d6efd/FFFFFF?text=Monitor+4K"
-            class="card-img-top-custom rounded-top"
-            alt="Producto: Monitor Curvo 4K 144Hz">
-
-          <div class="card-body d-flex flex-column">
-            <!-- Nombre del Artículo -->
-            <h5 class="card-title fw-bold text-truncate" title="Monitor Curvo 4K 144Hz - 27 Pulgadas">
-              Monitor Curvo 4K 144Hz
-            </h5>
-            <!-- Precio del Artículo -->
-            <h4 class="card-text text-primary mb-3">
-              <span class="fw-bolder">$349.50</span>
-            </h4>
-
-            <!-- Botones de Acción -->
-            <div class="d-grid gap-2 mt-auto">
-              <a href="#" class="btn btn-outline-primary btn-sm">
-                <i class="fa-solid fa-eye me-1"></i> Ver Detalles
-              </a>
-              <a href="#" class="btn btn-success btn-sm">
-                <i class="fa-solid fa-cart-plus me-1"></i> Agregar al Carrito
-              </a>
-            </div>
-          </div>
-        </div>
+      <!-- Manejo de Caso: Si no hay productos -->
+      @if ($products->isEmpty())
+      <div class="col-12 mt-5 text-center">
+        <p class="lead text-muted">No se encontraron productos en el catálogo.</p>
       </div>
-      <!-- COPIA: Tarjeta de Producto de Ejemplo 3 -->
-      <div class="col">
-        <div class="card product-card shadow-sm h-100">
-          <!-- Imagen del Producto -->
-          <img src="https://placehold.co/400x200/9b59b6/FFFFFF?text=Disco+SSD+2TB"
-            class="card-img-top-custom rounded-top"
-            alt="Producto: Disco Duro SSD M.2 2TB">
-
-          <div class="card-body d-flex flex-column">
-            <!-- Nombre del Artículo -->
-            <h5 class="card-title fw-bold text-truncate" title="Disco Duro SSD M.2 2TB Ultra Rápido">
-              Disco Duro SSD M.2 2TB
-            </h5>
-            <!-- Precio del Artículo -->
-            <h4 class="card-text text-primary mb-3">
-              <span class="fw-bolder">$129.00</span>
-            </h4>
-
-            <!-- Botones de Acción -->
-            <div class="d-grid gap-2 mt-auto">
-              <a href="#" class="btn btn-outline-primary btn-sm">
-                <i class="fa-solid fa-eye me-1"></i> Ver Detalles
-              </a>
-              <a href="#" class="btn btn-success btn-sm">
-                <i class="fa-solid fa-cart-plus me-1"></i> Agregar al Carrito
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- COPIA: Tarjeta de Producto de Ejemplo 4 -->
-      <div class="col">
-        <div class="card product-card shadow-sm h-100">
-          <!-- Imagen del Producto -->
-          <img src="https://placehold.co/400x200/2ecc71/FFFFFF?text=Teclado+Mec%C3%A1nico"
-            class="card-img-top-custom rounded-top"
-            alt="Producto: Teclado Mecánico RGB Pro">
-
-          <div class="card-body d-flex flex-column">
-            <!-- Nombre del Artículo -->
-            <h5 class="card-title fw-bold text-truncate" title="Teclado Mecánico RGB Pro Wireless">
-              Teclado Mecánico RGB Pro
-            </h5>
-            <!-- Precio del Artículo -->
-            <h4 class="card-text text-primary mb-3">
-              <span class="fw-bolder">$75.99</span>
-            </h4>
-
-            <!-- Botones de Acción -->
-            <div class="d-grid gap-2 mt-auto">
-              <a href="#" class="btn btn-outline-primary btn-sm">
-                <i class="fa-solid fa-eye me-1"></i> Ver Detalles
-              </a>
-              <a href="#" class="btn btn-success btn-sm">
-                <i class="fa-solid fa-cart-plus me-1"></i> Agregar al Carrito
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- ... Puedes añadir más tarjetas aquí ... -->
+      @endif
 
     </div>
 
