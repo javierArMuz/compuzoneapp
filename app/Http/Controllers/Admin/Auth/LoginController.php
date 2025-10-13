@@ -52,6 +52,6 @@ class LoginController extends Controller
     $request->session()->regenerateToken();
 
     // Redirigir a la página de inicio de sesión después de cerrar sesión
-    return redirect()->route('admin.login');
+    return redirect()->route('home');
   }
 }

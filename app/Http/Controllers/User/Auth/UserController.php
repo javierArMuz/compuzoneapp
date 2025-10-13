@@ -85,6 +85,6 @@ class UserController extends Controller
     $request->session()->invalidate();
     $request->session()->regenerateToken();
 
-    return redirect()->route('auth.login')->with('success', 'Sesión cerrada exitosamente.');
+    return redirect()->route('home')->with('success', 'Sesión cerrada exitosamente.');
   }
 }
