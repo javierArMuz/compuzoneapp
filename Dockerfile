@@ -14,7 +14,7 @@ RUN composer install --no-dev --prefer-dist --optimize-autoloader --no-scripts
 # ETAPA 2: Dependencias de Node.js (Vite/Frontend)
 # *** Cambio: Instalamos con --force y limpiamos caché NPM ***
 # -----------------------------------------------------
-FROM node:20-alpine as node 
+FROM node:22-alpine as node 
 
 WORKDIR /app
 
@@ -39,7 +39,7 @@ RUN npm run build
 # -----------------------------------------------------
 # ETAPA 3: Imagen Final del Servicio Web (Servidor PHP FPM)
 # -----------------------------------------------------
-FROM php:8.3-fpm-alpine
+FROM php:8.2-fpm-alpine
 
 # Instala paquetes del sistema necesarios
 RUN apk add --no-cache \
