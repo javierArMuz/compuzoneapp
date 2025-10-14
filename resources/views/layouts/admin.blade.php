@@ -6,7 +6,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>@yield('title')</title>
 	<!-- Vite para los estilos y scripts del proyecto -->
-	@vite(['resources/css/app.css', 'resources/js/app.js'])
+	<!-- vite(['resources/css/app.css', 'resources/js/app.js']) -->
+
+	<!-- CSS de Bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 	<!-- Font Awesome (Iconos) -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" xintegrity="sha512-1ycn6IcaQQ40N8S3aWlD6ZIz8w4P5+u2I8v6Iu2Z9j+d+2g0/s+G/tF/Xz8uN/E/D5L/1i/jM/Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<style>
@@ -196,6 +200,9 @@
 			});
 		});
 	</script>
+
+	<!-- Scripts de Bootstrap -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>
