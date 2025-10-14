@@ -21,7 +21,7 @@ WORKDIR /app
 
 # Copia solo los archivos de Node.js y configuración para que Vite pueda verlos
 COPY package.json package-lock.json vite.config.js ./
-COPY resources/ resources/  # Copia el código fuente que necesita Vite
+COPY resources/ ./resources/  # Copia el código fuente que necesita Vite
 
 # Instala dependencias y fuerza la reconstrucción para evitar problemas binarios
 RUN npm install --legacy-peer-deps
