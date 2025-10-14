@@ -1,0 +1,28 @@
+Ignorar dependencias de PHP y Node locales
+/vendor
+/node_modules
+
+Ignorar archivos específicos de Laravel y del entorno
+.env
+.DS_Store
+.idea
+.vscode
+homestead.yaml
+Homestead.json
+npm-debug.log
+yarn-error.log
+
+Ignorar almacenamiento local (lo configuramos en la etapa final)
+/storage/app/*
+/storage/framework/*
+/storage/logs/*
+!/storage/app/.gitignore
+!/storage/framework/.gitignore
+!/storage/logs/.gitignore
+
+Ignorar el directorio público de build (lo crearemos en la etapa Node)
+/public/build
+/public/hot
+
+PERMITIR el código fuente de frontend
+Asegúrate de que no haya una entrada que ignore 'resources/' o 'public'
