@@ -14,7 +14,7 @@ RUN composer install --no-dev --prefer-dist --optimize-autoloader --no-scripts
 # ETAPA 2: Dependencias de Node.js (Vite/Frontend)
 # *** Cambio: Instalamos con --force y limpiamos caché NPM ***
 # -----------------------------------------------------
-FROM node:20-alpine as node  # Usamos la versión Alpine de Node, que es más ligera
+FROM node:20-alpine as node 
 
 WORKDIR /app
 
@@ -46,12 +46,12 @@ RUN apk add --no-cache \
     mysql-client \
     git \
     supervisor \
-    # Instala las dependencias de BuildKit para binarios si son necesarios
+    # Instala herramientas de compilación necesarias (luego las eliminamos)
     g++ \
     make \
     # Instala las extensiones de PHP
     && docker-php-ext-install pdo_mysql opcache \
-    # Limpia los archivos de compilación
+    # Limpia los archivos de compilación para reducir el tamaño de la imagen
     && apk del g++ make
 
 WORKDIR /var/www/html
@@ -70,7 +70,5 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage \
     && chmod -R 775 /var/www/html/bootstrap/cache
 
-# Comando de inicio: (Deja esto según tu configuración de Render)
-# Si necesitas ejecutar Nginx y FPM en el mismo contenedor o si Render lo maneja
-# Si usas Render, usualmente el comando de inicio es solo para FPM:
+# Comando de inicio: (Asegúrate de que este es el comando correcto para Render)
 # CMD ["php-fpm"]
