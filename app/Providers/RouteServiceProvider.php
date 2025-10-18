@@ -40,6 +40,13 @@ class RouteServiceProvider extends ServiceProvider
       Route::middleware('web')
         ->group(base_path('routes/web.php'));
 
+      // Carga las rutas de admin con el middleware 'web' (para sesiones)
+      // pero con su propio prefijo y archivo.
+      Route::middleware('web')
+        ->prefix('admin')
+        ->name('admin.')
+        ->group(base_path('routes/admin.php'));
+
       // Opcional: Carga las rutas de la consola si las tienes
       // Route::middleware('api')
       //    ->group(base_path('routes/sanctum.php'));

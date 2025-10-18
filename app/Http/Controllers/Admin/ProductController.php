@@ -70,11 +70,11 @@ class ProductController extends Controller
   public function update(Request $request, Product $product)
   {
     $validated = $request->validate([
-      'name'        => 'required|string|max:100',
+      'name'        => 'required|string|min:1|max:100',
       'description' => 'nullable|string',
       'brand_id'    => 'required|exists:brands,id',
       'model'       => 'nullable|string|max:100',
-      'price'       => 'required|numeric|min:0',
+      'price'       => 'required|numeric|min:0.01',
       'stock'       => 'required|integer|min:0',
       'category_id' => 'required|exists:categories,id',
       'image_url'   => 'nullable|url|max:255',
