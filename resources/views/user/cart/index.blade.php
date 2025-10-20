@@ -35,8 +35,8 @@
 
     <!-- Columna de Artículos (Tabla) -->
     <div class="col-lg-8">
-      <div class="card shadow-sm mb-4">
-        <div class="card-body p-0">
+      <div class="card shadow-sm mb-4 rounded-4 border-0">
+        <div class="card-body p-0 table-responsive">
           <table class="table table-hover mb-0">
             <thead class="bg-light">
               <tr>

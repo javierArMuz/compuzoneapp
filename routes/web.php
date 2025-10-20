@@ -5,6 +5,7 @@ use App\Http\Controllers\User\Auth\UserController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +67,9 @@ Route::middleware('auth')->group(function () {
 
     // Confirmación del Pedido
     Route::get('/checkout/confirmation/{orderId?}', [CheckoutController::class, 'showConfirmation'])->name('order.confirmation');
+
+    // Pedidos del Usuario
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 
     // LOGOUT
     // =======================================================

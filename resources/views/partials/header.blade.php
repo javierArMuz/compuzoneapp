@@ -3,7 +3,7 @@
     <div class="container-fluid container-lg">
 
       <!-- Logo y Nombre de la Aplicación -->
-      <a class="navbar-brand d-flex align-items-center" href="#">
+      <a class="navbar-brand d-flex align-items-center" href="{{ route('shop.index') }}">
         <span class="logo-icon me-2"></span>
         <span class="h5 m-0 text-white fw-bold">CompuzoneApp</span>
       </a>
@@ -27,40 +27,40 @@
 
         <!-- Contenedor para la Búsqueda y Elementos de Usuario (Alineado a la derecha) -->
         <div class="d-flex align-items-center flex-column flex-lg-row ms-lg-auto gap-3 pt-3 pt-lg-0">
+          <div class="d-flex justify-content-between">
+            <!-- Formulario de Búsqueda (Apuntando a la misma ruta para filtrar) -->
+            <form class="d-flex search-form-responsive" role="search" method="GET" action="{{ route('shop.index') }}">
+              <div class="input-group">
+                <!-- AQUÍ ESTÁ EL CAMBIO CLAVE: Usamos 'value' para mantener el texto buscado -->
+                <input class="form-control form-control-sm rounded-start-pill"
+                  type="search"
+                  name="search"
+                  placeholder="Buscar productos..."
+                  aria-label="Search"
+                  value="{{ $searchQuery ?? '' }}">
+                <button class="btn btn-primary rounded-end-pill" type="submit">
+                  <i class="fa-solid fa-search"></i>
+                </button>
+              </div>
+            </form>
 
-          <!-- Formulario de Búsqueda (Apuntando a la misma ruta para filtrar) -->
-          <form class="d-flex search-form-responsive" role="search" method="GET" action="{{ route('shop.index') }}">
-            <div class="input-group">
-              <!-- AQUÍ ESTÁ EL CAMBIO CLAVE: Usamos 'value' para mantener el texto buscado -->
-              <input class="form-control form-control-sm rounded-start-pill"
-                type="search"
-                name="search"
-                placeholder="Buscar productos..."
-                aria-label="Search"
-                value="{{ $searchQuery ?? '' }}">
-              <button class="btn btn-primary rounded-end-pill" type="submit">
-                <i class="fa-solid fa-search"></i>
-              </button>
-            </div>
-          </form>
+            <!-- Botón de Carrito con Insignia de Conteo -->
+            <a href="{{ route('cart.index')}}" class="cart-icon-btn position-relative">
+              <i class="fa-solid fa-shopping-cart fa-xl"></i>
 
-          <!-- Botón de Carrito con Insignia de Conteo -->
-          <a href="{{ route('cart.index')}}" class="cart-icon-btn position-relative">
-            <i class="fa-solid fa-shopping-cart fa-xl"></i>
-
-            <!-- Lógica de Conteo Dinámico -->
-            <span class="position-absolute translate-middle badge rounded-pill cart-badge">
-              {{
+              <!-- Lógica de Conteo Dinámico -->
+              <span class="position-absolute translate-middle badge rounded-pill cart-badge">
+                {{
             collect(Session::get('cart', []))->sum(function ($item) {
                 return $item['quantity'] ?? 0;
             }) 
               }}
-              <span class="visually-hidden">Productos en el carrito</span>
-            </span>
-          </a>
-
+                <span class="visually-hidden">Productos en el carrito</span>
+              </span>
+            </a>
+          </div>
           <!-- Dropdown de Perfil (Avatar y Menú de Cuenta) -->
-          <div class="dropdown">
+          <div class="dropdown pb-1">
             <a class="nav-link dropdown-toggle text-white d-flex align-items-center p-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="fa-solid fa-circle-user fa-lg me-2 text-info"></i>
               <!-- Muestra el nombre del usuario logueado -->
@@ -69,7 +69,7 @@
 
             <ul class="dropdown-menu dropdown-menu-end shadow border-0 p-2">
               <li><a class="dropdown-item rounded" href="#"><i class="fa-solid fa-user-circle me-2"></i> Mi Perfil</a></li>
-              <li><a class="dropdown-item rounded" href="#"><i class="fa-solid fa-receipt me-2"></i> Mis Pedidos</a></li>
+              <li><a class="dropdown-item rounded" href="{{ route('orders.index') }}"><i class="fa-solid fa-receipt me-2"></i> Mis Pedidos</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
