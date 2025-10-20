@@ -124,9 +124,14 @@
             <span class="fs-5 fw-bold text-primary">${{ number_format($subtotal, 2) }}</span>
           </div>
 
-          <button class="btn btn-success btn-lg w-100" type="button" disabled>
-            <i class="fas fa-credit-card me-2"></i> Proceder al Pago (Próximamente)
-          </button>
+          {{-- FORMULARIO DE PAGO --}}
+          <form action="{{ route('checkout.process') }}" method="POST">
+            @csrf
+            <button class="btn btn-success btn-lg w-100" type="submit">
+              <i class="fas fa-credit-card me-2"></i> Proceder al Pago
+            </button>
+          </form>
+          {{-- FIN DEL FORMULARIO DE PAGO --}}
 
           <p class="text-center mt-3 mb-0">
             <a href="{{ route('shop.index') }}" class="text-decoration-none">Seguir comprando</a>

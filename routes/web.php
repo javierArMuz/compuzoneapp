@@ -4,18 +4,19 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\Auth\UserController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 
 /*
 |--------------------------------------------------------------------------
-| Rutas del Usuario Final (Tienda/E-commerce)
+| RUTAS DEL USUARIO FINAL (Tienda/E-commerce)
 |--------------------------------------------------------------------------
 */
-// Ruta de inicio (accesible para todos)
+// RUTA DE INICIO (accesible para todos)
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-// Rutas de Autenticación de Usuario (Login/Registro)
+// RUTAS DE AUTENTICACIÓN DE USUARIO (Login/Registro)
 // Usamos el middleware 'guest' para que solo los usuarios no autenticados puedan acceder a estas páginas.
 Route::prefix('auth')->name('auth.')->middleware('guest')->group(function () {
     // Registro
@@ -30,7 +31,6 @@ Route::prefix('auth')->name('auth.')->middleware('guest')->group(function () {
 // Rutas para usuarios autenticados (Por ejemplo, un dashboard de cliente)
 Route::middleware('auth')->group(function () {
 
-    // =======================================================
     // RUTAS DE LA TIENDA
     // =======================================================
 
@@ -43,7 +43,8 @@ Route::middleware('auth')->group(function () {
     // Ruta para ver los detalles de un producto.
     Route::get('productos/{product}', [ShopController::class, 'show'])->name('products.show');
 
-    // Rutas del Carrito de Compras
+    // RUTA DEL CARRITO DE COMPRAS
+    // =======================================================
 
     // El carrito debe ser siempre un método GET
     Route::get('/carrito', [CartController::class, 'index'])->name('cart.index');
@@ -57,8 +58,16 @@ Route::middleware('auth')->group(function () {
     // Eliminar un producto (DELETE, porque elimina de la sesión)
     Route::delete('/carrito/remover/{product}', [CartController::class, 'remove'])->name('cart.remove');
 
+    // RUTA DEL PEDIDO
     // =======================================================
 
-    // Logout
+    // Ruta para procesar el pago y disminuir el inventario
+    Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+
+    // Confirmación del Pedido
+    Route::get('/checkout/confirmation/{orderId?}', [CheckoutController::class, 'showConfirmation'])->name('order.confirmation');
+
+    // LOGOUT
+    // =======================================================
     Route::post('auth/logout', [UserController::class, 'logout'])->name('auth.logout');
 });
