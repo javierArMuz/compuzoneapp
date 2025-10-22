@@ -121,6 +121,10 @@
 			.hamburger-icon {
 				display: none;
 			}
+
+			.btn {
+				--bs-btn-padding-x: 0.49rem;
+			}
 		}
 	</style>
 </head>

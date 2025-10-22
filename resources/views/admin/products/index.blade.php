@@ -5,8 +5,8 @@
 @section('content')
 <div class="container-fluid mt-4">
 	<div class="d-flex justify-content-between align-items-center mb-3">
-		<h2>Listado de Productos</h2>
-		<a href="{{ route('admin.products.create') }}" class="btn btn-success">➕ Nuevo Producto</a>
+		<h2 class="h2 fw-bold">Listado de Productos</h2>
+		<a href="{{ route('admin.products.create') }}" class="btn btn-success"><i class="fas fa-plus me-2"></i>Nuevo Producto</a>
 	</div>
 
 	{{-- Muestra mensaje de éxito si existe --}}
@@ -52,12 +52,12 @@
 								<span class="badge bg-danger">No</span>
 								@endif
 							</td>
-							<td>
-								<a href="{{ route('admin.products.edit', $p) }}" class="btn"><i class="far text-warning">&#xf044;</i></a>
+							<td style="width: 150px;">
+								<a href="{{ route('admin.products.edit', $p) }}" class="btn" title="Editar"><i class="far text-warning">&#xf044;</i></a>
 								<form method="POST" action="{{ route('admin.products.destroy', $p) }}" style="display:inline" onsubmit="return confirm('¿Eliminar este producto?');">
 									@csrf @method('DELETE')
 									<!-- <button type="submit" class="btn btn-danger btn-sm"><i class='far'>&#xf2ed;</i></button> -->
-									<button type="submit" class="btn"><i class='far text-danger'>&#xf2ed;</i></button>
+									<button type="submit" class="btn" title="Eliminar"><i class='far text-danger'>&#xf2ed;</i></button>
 								</form>
 							</td>
 						</tr>
