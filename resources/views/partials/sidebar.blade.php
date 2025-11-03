@@ -8,7 +8,9 @@
     <a href="{{ route('admin.products.index') }}" class="list-group-item list-group-item-action" title="Productos"><i class="fas fa-box"></i><span>Productos</span></a>
     <a href="{{ route('admin.brands.index') }}" class="list-group-item list-group-item-action" title="Marcas"><i class="fas fa-tags"></i><span>Marcas</span></a>
     <a href="{{ route('admin.categories.index') }}" class="list-group-item list-group-item-action" title="Categorías"><i class="fas fa-folder"></i><span>Categorías</span></a>
-    <a href="{{ route('admin.users.index') }}" class="list-group-item list-group-item-action" title="Usuarios"><i class="fas fa-user"></i><span>Usuarios</span></a>
+    <a href="{{ route('admin.users.index') }}" class="list-group-item list-group-item-action" title="Usuarios"><i class="fas fa-users"></i><span>Usuarios</span></a>
+    <a href="#" class="list-group-item list-group-item-action" title="Pedidos"><i class="fas fa-shopping-basket"></i><span>Pedidos</span></a>
+    <a href="#" class="list-group-item list-group-item-action" title="Ajustes"><i class="fas fa-cog"></i><span>Ajustes</span></a>
     <a href="#"
       title="Cerrar"
       class="list-group-item"

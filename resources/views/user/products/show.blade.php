@@ -1,4 +1,3 @@
-<!-- Asume que extiendes de un layout base, por ejemplo, 'layouts.app' -->
 @extends('layouts.user')
 
 @section('title', $product->name)

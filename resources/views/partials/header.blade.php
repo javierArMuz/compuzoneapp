@@ -68,7 +68,7 @@
             </a>
 
             <ul class="dropdown-menu dropdown-menu-end shadow border-0 p-2">
-              <li><a class="dropdown-item rounded" href="#"><i class="fa-solid fa-user-circle me-2"></i> Mi Perfil</a></li>
+              <li><a class="dropdown-item rounded" href="{{ route('account.show') }}"><i class="fa-solid fa-user-circle me-2"></i> Mi Cuenta</a></li>
               <li><a class="dropdown-item rounded" href="{{ route('orders.index') }}"><i class="fa-solid fa-receipt me-2"></i> Mis Pedidos</a></li>
               <li>
                 <hr class="dropdown-divider">

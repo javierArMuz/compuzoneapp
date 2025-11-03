@@ -71,6 +71,15 @@ Route::middleware('auth')->group(function () {
     // Pedidos del Usuario
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 
+    // MI CUENTA
+    // =======================================================
+
+    // Ruta para mostrar el formulario "Mi Cuenta"
+    Route::get('/mi-cuenta', [UserController::class, 'showAccount'])->name('account.show');
+
+    // Ruta para procesar la actualización de datos
+    Route::post('/mi-cuenta', [UserController::class, 'updateAccount'])->name('account.update');
+
     // LOGOUT
     // =======================================================
     Route::post('auth/logout', [UserController::class, 'logout'])->name('auth.logout');

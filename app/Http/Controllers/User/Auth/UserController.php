@@ -7,7 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -24,7 +25,7 @@ class UserController extends Controller
     $request->validate([
       'first_name' => ['required', 'string', 'max:100'],
       'email' => ['required', 'string', 'email', 'max:100', 'unique:users'],
-      'password' => ['required', 'confirmed', Rules\Password::defaults()],
+      'password' => ['required', 'confirmed', Password::defaults()],
       'last_name' => ['nullable', 'string', 'max:100'],
       'phone' => ['nullable', 'string', 'max:15'],
       'address' => ['nullable', 'string'],
@@ -75,6 +76,61 @@ class UserController extends Controller
     return back()->withErrors([
       'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
     ])->onlyInput('email');
+  }
+
+  /**
+   * Muestra la vista del perfil de usuario "Mi Cuenta".
+   */
+  public function showAccount()
+  {
+    // El usuario autenticado está disponible a través de Auth::user()
+    $user = Auth::user();
+
+    return view('user.account.show', compact('user'));
+  }
+
+  /**
+   * Procesa la actualización de los datos del perfil.
+   */
+  public function updateAccount(Request $request)
+  {
+
+    $user = Auth::user();
+
+    // Verificación de tipo de objeto (Debugging)
+    if (!($user instanceof User)) {
+      // Si entra aquí, significa que $user NO es el modelo de Eloquent.
+      dd('ERROR FATAL: El objeto $user no es una instancia del modelo User.');
+    }
+
+    // 1. Validación de los datos
+    $request->validate([
+      'name' => 'required|string|max:255',
+      // Asegura que el email es único, excluyendo el email actual del usuario
+      'email' => [
+        'required',
+        'string',
+        'email',
+        'max:255',
+        Rule::unique('users')->ignore($user->id),
+      ],
+      // La contraseña es opcional, solo si quiere cambiarla
+      'password' => 'nullable|string|min:8|confirmed',
+    ]);
+
+    // 2. Actualización de datos básicos
+    $user->first_name = $request->input('name');
+    $user->email = $request->input('email');
+
+    // 3. Actualización de la contraseña (solo si se ha proporcionado)
+    if ($request->filled('password')) {
+      $user->password = bcrypt($request->input('password'));
+    }
+
+    $user->save();
+
+    // 4. Redireccionar con un mensaje de éxito
+    return redirect()->route('account.show')->with('success', 'Tu perfil se ha actualizado correctamente.');
   }
 
   // Cierra la sesión del usuario

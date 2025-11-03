@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container py-5">
-  <h1 class="mb-5 fw-bold text-primary border-bottom pb-2">🛍️ Mi Historial de Pedidos</h1>
+  <h2 class="mb-5 fw-bold text-primary border-bottom pb-2"><i class="fa-solid fa-bag-shopping"></i> Mi Historial de Pedidos</h2>
 
   {{-- Verifica si hay pedidos para mostrar --}}
   @if ($orders->isEmpty())

@@ -19,7 +19,7 @@
       <!-- INICIO DEL LOOP DE BLADE: Recorre la colección $products inyectada por el Controlador -->
       @foreach ($products as $product)
       <div class="col">
-        <div class="card product-card shadow-sm h-100">
+        <div class="card product-card shadow-sm h-100 {{ $product->stock == 0 ? 'opacity-50' : '' }}">
           <!-- Imagen del Producto -->
           <!-- Usa la URL o el PATH de la imagen del producto -->
           <img src="{{ $product->image_url ?? 'https://placehold.co/400x200/cccccc/333333?text=Sin+Imagen' }}"
@@ -53,9 +53,14 @@
               <!-- Botón Agregar al Carrito (Debe ser un formulario POST en la vida real) -->
               <form action="{{ route('cart.add', $product->id) }}" method="POST">
                 @csrf
+                @if ($product->stock > 0)
                 <button type="submit" class="btn btn-success btn-sm w-100">
                   <i class="fa-solid fa-cart-plus me-1"></i> Agregar al Carrito
                 </button>
+                @else
+                <button class="btn btn-secondary btn-sm w-100 cursor-not-allowed" disabled>Producto Agotado
+                </button>
+                @endif
               </form>
             </div>
           </div>
