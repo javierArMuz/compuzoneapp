@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Models\User;
+use App\Models\Order;
 
 class DashboardController extends Controller
 {
@@ -16,12 +18,16 @@ class DashboardController extends Controller
     $productCount = Product::count();
     $categoryCount = Category::count();
     $brandCount = Brand::count();
+    $userCount = User::count();
+    $orderCount = Order::count();
 
     // Generar la vista del dashboard pasando los datos
     $response = response()->view('admin.dashboard', [
       'productCount' => $productCount,
       'categoryCount' => $categoryCount,
       'brandCount' => $brandCount,
+      'userCount' => $userCount,
+      'orderCount' => $orderCount,
     ]);
 
     // Añade las cabeceras HTTP anti-caché directamente a la respuesta

@@ -65,6 +65,44 @@
       </div>
     </div>
 
+    <!-- Tarjeta de Usuarios -->
+    <div class="col-md-4 mb-4">
+      <div class="card shadow border-left-warning h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters">
+            <div class="col mr-2 text-center">
+              <div class="text-xs font-weight-bold mb-1">Usuarios</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $userCount }}</div>
+              <a href="{{ route('admin.users.index') }}" class="text-primary small mt-2 d-block">Ver Usuarios &rarr;</a>
+            </div>
+            <div class="col-auto">
+              <!-- Icono de Usuarios -->
+              <i class="fas fa-users fa-1x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tarjeta de Pedidos -->
+    <div class="col-md-4 mb-4">
+      <div class="card shadow border-left-warning h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters">
+            <div class="col mr-2 text-center">
+              <div class="text-xs font-weight-bold mb-1">Pedidos</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $orderCount }}</div>
+              <a href="{{ route('admin.users.index') }}" class="text-primary small mt-2 d-block">Ver Pedidos &rarr;</a>
+            </div>
+            <div class="col-auto">
+              <!-- Icono de Pedidos -->
+              <i class="fas fa-shopping-basket fa-1x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- Aquí puedes añadir más contenido específico del dashboard -->
