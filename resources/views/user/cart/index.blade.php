@@ -6,21 +6,6 @@
 <div class="container py-5">
   <h1 class="mb-4 fw-bold">🛒 Carrito de Compras</h1>
 
-  <!-- Manejo de Mensajes de Sesión (Éxito o Error) -->
-  @if(Session::has('success'))
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
-    {{ Session::get('success') }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-  @endif
-
-  @if(Session::has('error'))
-  <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    {{ Session::get('error') }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-  @endif
-
   @if (empty($cartItems))
   <!-- Carrito Vacío -->
   <div class="alert alert-info text-center py-4 border-0 shadow-sm">
@@ -73,6 +58,7 @@
                       name="quantity"
                       value="{{ $item['quantity'] }}"
                       min="1"
+                      max="{{ $item['stock'] }}"
                       class="form-control form-control-sm text-center"
                       style="width: 70px;">
                   </form>

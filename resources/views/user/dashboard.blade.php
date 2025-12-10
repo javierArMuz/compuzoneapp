@@ -53,6 +53,12 @@
               <!-- Botón Agregar al Carrito (Debe ser un formulario POST en la vida real) -->
               <form action="{{ route('cart.add', $product->id) }}" method="POST">
                 @csrf
+
+                <div class="mb-3">
+                  <label for="quantity" class="form-label">Cantidad</label>
+                  <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ $product->stock }}" class="form-control" style="width: 100px;">
+                </div>
+
                 @if ($product->stock > 0)
                 <button type="submit" class="btn btn-success btn-sm w-100">
                   <i class="fa-solid fa-cart-plus me-1"></i> Agregar al Carrito

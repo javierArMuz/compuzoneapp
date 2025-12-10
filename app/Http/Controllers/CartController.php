@@ -36,29 +36,59 @@ class CartController extends Controller
     // 1. Obtener el carrito actual de la sesión
     $cart = Session::get('cart', []);
 
-    // Determinar la cantidad a agregar (por defecto 1, si no se envía)
-    $quantity = $request->input('quantity', 1);
+    // 2. Determinar la cantidad a agregar (por defecto 1, si no se envía)
+    // Usamos 'quantity' como clave.
+    $quantityToAdd = (int) $request->input('quantity', 1);
 
-    // 2. Verificar si el producto ya existe en el carrito
+    // 3. Obtener la cantidad actual del producto en el carrito (si ya existe)
+    $currentQtyInCart = $cart[$product->id]['quantity'] ?? 0;
+
+    // 4. Calcular la cantidad total que habría después de la adición
+    $newTotalQty = $currentQtyInCart + $quantityToAdd;
+
+    // =========================================================================
+    // 5. VALIDACIÓN CLAVE: Comparar la nueva cantidad total con el stock disponible
+    // =========================================================================
+    if ($newTotalQty > $product->stock) {
+
+      // Determinar cuántas unidades se pueden añadir realmente
+      $availableToAdd = $product->stock - $currentQtyInCart;
+
+      // Si no se puede añadir ni una unidad, mostrar un mensaje más específico
+      if ($availableToAdd <= 0) {
+        $message = "El producto '{$product->name}' ya está agotado o has alcanzado el límite de stock en tu carrito ({$product->stock} unidades).";
+      } else {
+        $message = "Solo puedes agregar **{$availableToAdd}** unidad(es) más de '{$product->name}'. Actualmente tienes {$currentQtyInCart} y el stock total es {$product->stock}.";
+      }
+
+      // Redirigir de vuelta con el mensaje de error
+      return redirect()->back()->with('error', $message);
+    }
+
+    // =========================================================================
+    // 6. Si la validación pasa, proceder con la lógica para añadir/actualizar el carrito
+    // =========================================================================
+
+    // A. El producto ya existe en el carrito
     if (isset($cart[$product->id])) {
-      // El producto ya está, incrementamos la cantidad
-      $cart[$product->id]['quantity'] += $quantity;
+      // El producto ya está, incrementamos la cantidad (usando $newTotalQty calculado)
+      $cart[$product->id]['quantity'] = $newTotalQty;
     } else {
-      // El producto es nuevo, lo agregamos al carrito
+      // B. El producto es nuevo, lo agregamos al carrito
       $cart[$product->id] = [
-        'id' => $product->id,
-        'name' => $product->name,
-        'price' => $product->price,
-        // Si usas imágenes, puedes agregar la URL aquí
-        'image_url' => $product->image_url ?? 'https://placehold.co/100x100/cccccc/333333?text=Sin+Imagen',
-        'quantity' => $quantity,
+        'id'             => $product->id,
+        'name'           => $product->name,
+        'price'          => $product->price,
+        'image_url'      => $product->image_url ?? 'https://placeholder.com/100x100/cccccc/333333?text=Sin+Imagen',
+        'quantity'       => $newTotalQty, // Usamos la cantidad total ($newTotalQty)
         // Opcionalmente carga las relaciones para mostrar en la vista
-        'brand_name' => $product->brand->name ?? 'N/A',
-        'category_name' => $product->category->name ?? 'N/A',
+        'stock'          => $product->stock,
+        'brand_name'     => $product->brand_name ?? 'N/A',
+        'category_name'  => $product->category_name ?? 'N/A',
       ];
     }
 
-    // 3. Volver a guardar el carrito en la sesión
+    // 7. Volver a guardar el carrito en la sesión
     Session::put('cart', $cart);
 
     // Redirigir de vuelta al producto con un mensaje de éxito
