@@ -69,7 +69,7 @@ class CheckoutController extends Controller
         'user_id' => Auth::id(),
         'order_number' => 'ORD-' . time() . Auth::id(), // Generación de un número de orden simple y único
         'total_amount' => $totalAmount,
-        'status' => 'completed',
+        'status' => 'pending',
       ]);
 
       // 3. Creación de los Ítems de la Orden y Disminución del Stock

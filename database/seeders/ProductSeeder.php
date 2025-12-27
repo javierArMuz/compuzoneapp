@@ -43,6 +43,7 @@ class ProductSeeder extends Seeder
             'stock' => 15,
             'category_id' => $desktop->id,
             'brand_id' => $intel->id,
+            'image_url' => 'https://m.media-amazon.com/images/I/61-jgopsiKL._AC_UF1000,1000_QL80_.jpg',
             'is_active' => true,
         ]);
 
@@ -55,6 +56,7 @@ class ProductSeeder extends Seeder
             'stock' => 8,
             'category_id' => $laptops->id,
             'brand_id' => $amd->id,
+            'image_url' => 'https://static.wixstatic.com/media/dbff9d_beeafff554864732a4c184f342c2f62c~mv2.png/v1/fill/w_396,h_396,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/dbff9d_beeafff554864732a4c184f342c2f62c~mv2.png',
             'is_active' => true,
         ]);
 
@@ -67,6 +69,7 @@ class ProductSeeder extends Seeder
             'stock' => 50,
             'category_id' => $accessories->id,
             'brand_id' => $logitech->id,
+            'image_url' => 'https://basevirtual.com.co/wp-content/uploads/2019/10/Base-Virtual-Mouse-Vertical-USB-Ergonomico.png',
             'is_active' => true,
         ]);
     }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,12 @@ Route::middleware(['auth:admin'])->group(function () {
   Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
   Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
   Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+  // Rutas para Pedidos
+  Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+  Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+  Route::put('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+
 
   // Ruta para cerrar sesión
   Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');

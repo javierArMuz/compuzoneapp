@@ -138,6 +138,33 @@
 		<div id="page-content-wrapper" class="flex-grow-1 p-4">
 			<button class="btn btn-secondary d-md-none" onclick="toggleSidebar()">☰</button>
 			<div class="container-fluid">
+
+				<!-- Muestra Mensajes de Sesión (Flash) -->
+				@if (session('ok'))
+				<div class="alert alert-success alert-dismissible fade show" role="alert">
+					{{ session('ok') }}
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+				@endif
+
+				{{-- Mensajes de error --}}
+				@if (session('error'))
+				<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					{!! session('error') !!}
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+				@endif
+
+				@if ($errors->any())
+				<div class="alert alert-danger mt-3" role="alert">
+					<ul>
+						@foreach ($errors->all() as $e)
+						<li>{{ $e }}</li>
+						@endforeach
+					</ul>
+				</div>
+				@endif
+
 				@yield('content')
 			</div>
 		</div>

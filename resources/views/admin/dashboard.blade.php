@@ -92,7 +92,7 @@
             <div class="col mr-2 text-center">
               <div class="text-xs font-weight-bold mb-1">Pedidos</div>
               <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $orderCount }}</div>
-              <a href="{{ route('admin.users.index') }}" class="text-primary small mt-2 d-block">Ver Pedidos &rarr;</a>
+              <a href="{{ route('admin.orders.index') }}" class="text-primary small mt-2 d-block">Ver Pedidos &rarr;</a>
             </div>
             <div class="col-auto">
               <!-- Icono de Pedidos -->

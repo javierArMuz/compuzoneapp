@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>CompuzoneApp | Inicio</title>
+	<link rel="icon" type="image/png" href="{{ asset('assets/faviconCompuzone.png')}}">
 
 	<!-- Carga de Bootstrap 5 CSS -->
 	<!-- Vite para los estilos y scripts del proyecto -->
@@ -75,7 +76,8 @@
 
 			<!-- Logo y Nombre de la Aplicación -->
 			<a class="navbar-brand d-flex align-items-center" href="#">
-				<span class="logo-icon me-2"></span>
+				<!-- <span class="logo-icon me-2"></span> -->
+				<img src="{{ asset('assets/logoCompuzone.png') }}" width="35" alt="Logo Compuzone">
 				<span class="h5 m-0 text-dark fw-bold">CompuzoneApp</span>
 			</a>
 

@@ -18,7 +18,7 @@ return new class extends Migration
 			$table->foreignId('user_id')->constrained('users')->onDelete('cascade');
 			$table->string('order_number')->unique();
 			$table->decimal('total_amount', 10, 2);
-			$table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('completed'); // Asumimos completado tras el checkout
+			$table->enum('status', ['pending', 'processing', 'shipped', 'delivered', 'cancelled'])->default('pending'); // Asumimos completado tras el checkout
 			$table->timestamps();
 		});
 	}

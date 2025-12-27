@@ -9,13 +9,6 @@
 		<a href="{{ route('admin.products.create') }}" class="btn btn-success"><i class="fas fa-plus me-2"></i>Nuevo Producto</a>
 	</div>
 
-	{{-- Muestra mensaje de éxito si existe --}}
-	@if(session('ok'))
-	<div class="alert alert-success" role="alert">
-		{{ session('ok') }}
-	</div>
-	@endif
-
 	{{-- Tabla de productos --}}
 	<div class="card shadow-sm">
 		<div class="card-body">

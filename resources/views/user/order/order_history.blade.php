@@ -32,8 +32,10 @@
           <p class="mb-1 text-muted">Estado:</p>
           {{-- Muestra una insignia de color según el estado --}}
           <span class="badge 
-                            @if($order->status == 'completed') bg-success 
-                            @elseif($order->status == 'pending') bg-warning 
+                            @if($order->status == 'delivered') bg-success 
+                            @elseif($order->status == 'pending') bg-warning
+                            @elseif($order->status == 'processing') bg-info
+                            @elseif($order->status == 'shipped') bg-primary
                             @else bg-danger 
                             @endif 
                             text-uppercase py-2 px-3">

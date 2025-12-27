@@ -7,24 +7,6 @@
   <div class="card shadow-sm p-4">
     <h2 class="mb-3">{{ !empty($editing) ? 'Editar Marca' : 'Registrar Marca' }}</h2>
 
-    {{-- Mensajes de éxito --}}
-    @if (session('ok'))
-    <div class="alert alert-success mt-3" role="alert">
-      {{ session('ok') }}
-    </div>
-    @endif
-
-    {{-- Mensajes de error --}}
-    @if ($errors->any())
-    <div class="alert alert-danger mt-3" role="alert">
-      <ul>
-        @foreach ($errors->all() as $e)
-        <li>{{ $e }}</li>
-        @endforeach
-      </ul>
-    </div>
-    @endif
-
     {{-- Formulario crear/editar --}}
     <form method="POST"
       action="{{ empty($editing) ? route('admin.brands.store') : route('admin.brands.update', $brand) }}">
